@@ -151,7 +151,7 @@ class PSModelLoRAHyper(torch.nn.Module):
         # Initialize weights
         self.init_weights()
 
-    def init_weights(self, init_type='xavier_uniform', seed=42):
+    def init_weights(self, init_type='xavier_uniform', seed=None):
         """
         Initialize weights with a specific method and seed for reproducibility.
         
@@ -161,10 +161,11 @@ class PSModelLoRAHyper(torch.nn.Module):
             seed: Random seed for reproducibility
         """
         # Set seed for reproducibility
-        torch.manual_seed(seed)
-        if torch.cuda.is_available():
-            torch.cuda.manual_seed(seed)
-            torch.cuda.manual_seed_all(seed)
+        if seed is not None:
+            torch.manual_seed(seed)
+            if torch.cuda.is_available():
+                torch.cuda.manual_seed(seed)
+                torch.cuda.manual_seed_all(seed)
         
         # Initialize params_mlp
         for module in self.params_mlp.modules():
@@ -209,7 +210,7 @@ class PSModelLoRAHyper(torch.nn.Module):
                 if layer.bias is not None:
                     nn.init.constant_(layer.bias, 0.0)
     
-    def reset_parameters(self, seed=42):
+    def reset_parameters(self, seed=None):
         """
         Reset all parameters to initial values with the same seed.
         This ensures identical initialization across runs.
@@ -294,7 +295,7 @@ class PSbaseModel(torch.nn.Module):
         # Initialize weights
         self.init_weights()
       
-    def init_weights(self, init_type='xavier_uniform', seed=42):
+    def init_weights(self, init_type='xavier_uniform', seed=None):
         """
         Initialize weights with a specific method and seed for reproducibility.
         
@@ -304,10 +305,11 @@ class PSbaseModel(torch.nn.Module):
             seed: Random seed for reproducibility
         """
         # Set seed for reproducibility
-        torch.manual_seed(seed)
-        if torch.cuda.is_available():
-            torch.cuda.manual_seed(seed)
-            torch.cuda.manual_seed_all(seed)
+        if seed is not None:
+            torch.manual_seed(seed)
+            if torch.cuda.is_available():
+                torch.cuda.manual_seed(seed)
+                torch.cuda.manual_seed_all(seed)
         
         # List of all layers to initialize
         layers_to_init = [self.first_layer]
@@ -347,15 +349,16 @@ class PSbaseModel(torch.nn.Module):
         with torch.no_grad():
             self.last_layer.weight.data *= 0.1
     
-    def init_weights_custom(self, seed=42):
+    def init_weights_custom(self, seed=None):
         """
         Custom initialization specifically designed for this architecture.
         Uses Kaiming for hidden layers (good for ReLU) and special init for output.
         """
-        torch.manual_seed(seed)
-        if torch.cuda.is_available():
-            torch.cuda.manual_seed(seed)
-            torch.cuda.manual_seed_all(seed)
+        if seed is not None:
+            torch.manual_seed(seed)
+            if torch.cuda.is_available():
+                torch.cuda.manual_seed(seed)
+                torch.cuda.manual_seed_all(seed)
         
         # First layer: Xavier initialization (no activation before it)
         nn.init.xavier_uniform_(self.first_layer.weight)
@@ -371,7 +374,7 @@ class PSbaseModel(torch.nn.Module):
         nn.init.uniform_(self.last_layer.weight, -0.1, 0.1)
         nn.init.constant_(self.last_layer.bias, 0.0)
     
-    def reset_parameters(self, init_type='kaiming_uniform', seed=42):
+    def reset_parameters(self, init_type='kaiming_uniform', seed=None):
         """
         Reset all parameters to initial values with the same seed.
         This ensures identical initialization across runs.
