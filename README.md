@@ -26,20 +26,33 @@ PPSL addresses the challenge of solving an infinite number of multi-objective op
 1. **Dynamic Multiobjective Optimization Problems (DMOPs)**: Where objectives change over time
 2. **Multiobjective Optimization with Shared Components**: Where design variables must share identical settings for manufacturing efficiency
 
-## Installation
+## 🛠️ Installation
 
-### Prerequisites
+#### Prerequisites
 * Python ≥ 3.8  
 * PyTorch ≥ 1.12 (GPU supported; CUDA optional)  
 
-### Setup
+#### Setup
+0. Clone the repository:
 ```bash
-git clone (public upon acceptance)
+git clone https://github.com/[your-username]/ppsl.git
 cd ppsl
+```
+0. Install dependencies:
+```bash
 pip install -r requirements.txt
 ```
 
-## Quick Start
+#### Required Packages
+```apache
+torch>=1.12.0
+numpy>=1.21.0
+pymoo>=0.6.0
+matplotlib>=3.5.0
+scipy>=1.7.0
+```
+
+## 🚀 Quick Start
 ```bash
 jupyter notebook example.ipynb
 ```
