@@ -35,7 +35,7 @@ PPSL addresses the challenge of solving an infinite number of multi-objective op
 #### Setup
 1. Clone the repository:
 ```bash
-git clone https://github.com/[your-username]/ppsl.git
+git clone (available upon acceptance)
 cd ppsl
 ```
 2. Install dependencies:
