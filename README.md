@@ -33,12 +33,12 @@ PPSL addresses the challenge of solving an infinite number of multi-objective op
 * PyTorch ≥ 1.12 (GPU supported; CUDA optional)  
 
 #### Setup
-0. Clone the repository:
+1. Clone the repository:
 ```bash
 git clone https://github.com/[your-username]/ppsl.git
 cd ppsl
 ```
-0. Install dependencies:
+2. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
@@ -53,6 +53,8 @@ scipy>=1.7.0
 ```
 
 ## 🚀 Quick Start
+#### Interactive Demo
+Explore PPSL through our Jupyter notebook:
 ```bash
 jupyter notebook example.ipynb
 ```
