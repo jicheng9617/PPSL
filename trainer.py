@@ -16,6 +16,24 @@ def generate_ps(
     n_samples: int, 
     device: torch.device,
 ):
+    """
+    Generates Pareto set solutions for a given parameter using trained PPSL models.
+    
+    Args:
+        problem (any): Parametric multi-objective optimization problem
+        param (torch.tensor): Problem parameter vector
+        hypernet (any): Trained hypernetwork that maps parameters to PS model weights
+        psmodel (any): Trained PS model that maps preferences to solutions
+        n_samples (int): Number of Pareto solutions to generate
+        device (torch.device): Computing device
+        
+    Returns:
+        torch.tensor: Pareto set solutions of shape (n_samples, n_dim)
+        
+    Notes:
+        - Inference only (no gradient computation)
+        - Preferences sampled uniformly from simplex via Dirichlet(α=[1,...,1])
+    """
     weights = hypernet(param) 
     n_obj = problem.n_obj
 
