@@ -13,6 +13,23 @@ class PSModelHyper(torch.nn.Module):
                  psm_hidden_size: int = 64, 
                  psm_n_layer : int = 2,
                  ) -> None:
+        """
+        Hypernetwork that generates weights for the Pareto Set model.
+        
+        Maps problem parameters θ ∈ R^n_params to PS model weights W(θ).
+        
+        Args:
+            n_params (int): Dimension of problem parameters
+            n_dim (int): Dimension of decision variables  
+            n_obj (int): Number of objectives
+            params_hidden_size (int): Hidden size for parameter processing MLP
+            psm_hidden_size (int): Hidden size of generated PS model
+            psm_n_layer (int): Number of layers in generated PS model
+            
+        Notes:
+            - Generates weights and biases for all layers of PS model
+            - Output dict contains keys: "hidden{i}.weights" and "hidden{i}.bias"
+        """
         super().__init__()
         self.n_params = n_params
         self.n_dim = n_dim
@@ -68,7 +85,22 @@ class PSModelHyper(torch.nn.Module):
 
 
 class PSModel(torch.nn.Module):
-    def __init__(self, n_dim, n_obj, hidden_size: int = 64, n_layer: int = 2):
+    def __init__(self, n_dim, n_obj, hidden_size: int = 256, n_layer: int = 2):
+        """
+        Pareto Set model that maps preferences to Pareto optimal solutions.
+        
+        Implements g_W: λ → x*, where λ is preference vector and x* is Pareto solution.
+        
+        Args:
+            n_dim (int): Dimension of decision variables
+            n_obj (int): Number of objectives
+            hidden_size (int): Hidden layer size
+            n_layer (int): Number of hidden layers
+            
+        Notes:
+            - Weights W are provided by hypernetwork (not learned directly)
+            - Output uses sigmoid activation to constrain x ∈ [0,1]^n_dim
+        """
         super().__init__()
         self.n_dim = n_dim
         self.n_obj = n_obj
@@ -119,6 +151,25 @@ class PSModelLoRAHyper(torch.nn.Module):
                  psm_hidden_size: int = 256, 
                  psm_n_layer : int = 2,
                  ) -> None:
+        """
+        LoRA-based hypernetwork for efficient parametric adaptation.
+        
+        Generates low-rank matrices A and B where ΔW = A·B^T for each PS model layer.
+        This reduces parameters from O(d₁×d₂) to O(r×(d₁+d₂)) where r << min(d₁,d₂).
+        
+        Args:
+            n_params (int): Dimension of problem parameters
+            n_dim (int): Dimension of decision variables
+            n_obj (int): Number of objectives
+            free_rank (int): LoRA rank r for decomposition
+            params_hidden_size (int): Hidden size for parameter MLP
+            psm_hidden_size (int): Hidden size of PS model
+            psm_n_layer (int): Number of PS model layers
+            
+        Notes:
+            - LoRA adaptation: W(θ) = W₀ + A(θ)·B(θ)^T
+            - A(θ) ∈ R^(d_out × r), B(θ) ∈ R^(d_in × r)
+        """
         super().__init__()
         self.n_params = n_params
         self.n_dim = n_dim
@@ -233,8 +284,24 @@ class PSModelLoRA(torch.nn.Module):
                  n_dim, 
                  n_obj, 
                  free_rank: int = 3,
-                 hidden_size: int = 64, 
+                 hidden_size: int = 256, 
                  n_layer: int = 2):
+        """
+        PS model with LoRA adaptation for parameter-efficient learning.
+        
+        Combines a frozen base model with low-rank updates: W = W_base + ΔW.
+        
+        Args:
+            n_dim (int): Dimension of decision variables
+            n_obj (int): Number of objectives  
+            free_rank (int): LoRA rank r
+            hidden_size (int): Hidden layer size
+            n_layer (int): Number of hidden layers
+            
+        Notes:
+            - Base model parameters W_base are shared across all θ
+            - Only ΔW = A·B^T is parameter-specific
+        """
         super().__init__()
         self.n_dim = n_dim
         self.n_obj = n_obj
@@ -281,6 +348,19 @@ class PSModelLoRA(torch.nn.Module):
 
 class PSbaseModel(torch.nn.Module):
     def __init__(self, n_dim, n_obj, hidden_size: int = 256, n_layer: int = 2):
+        """
+        Base Pareto Set model.
+        
+        Args:
+            n_dim (int): Dimension of decision variables
+            n_obj (int): Number of objectives
+            hidden_size (int): Hidden layer size
+            n_layer (int): Number of hidden layers
+            
+        Notes:
+            - Architecture: λ → ReLU → ... → ReLU → Sigmoid → x
+            - Output constrained to [0,1]^{n_dim} via sigmoid
+        """
         super().__init__()
         self.n_dim = n_dim
         self.n_obj = n_obj
