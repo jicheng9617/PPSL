@@ -480,7 +480,7 @@ def trainer_ppsl_fix_para(
     hnet = hnet.to(device)
     psmodel = psmodel.to(device)
     
-    optimizer = torch.optim.Adam(hnet.parameters(), lr=lr_hpn, weight_decay=1e-5)
+    optimizer = torch.optim.Adam(hnet.parameters(), lr=lr_hpn, weight_decay=1e-2)
     if lora_type: optimizer_baseModel = torch.optim.Adam(psmodel.base_model.parameters(), lr=lr_base, weight_decay=1e-4)
 
     hnet.train()
