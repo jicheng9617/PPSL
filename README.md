@@ -4,10 +4,7 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.12%2B-ee4c2c?logo=pytorch)](https://pytorch.org/)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/license/MIT)
 
-This repository contains the implementation of **Parametric Pareto Set Learning (PPSL)**, a novel framework for solving Parametric Multiobjective Optimization (PMO) problems through amortized optimization. 
-
-📄 **Paper**: *Parametric Pareto Set Learning: Amortizing Multi-Objective Optimization with Parameters*  
-🏛️ **Submitted to**: IEEE Transactions on Evolutionary Computation
+Official implementation of the paper **"Parametric Pareto Set Learning: Amortizing Multi-Objective Optimization with Parameters"**, published in IEEE Transactions on Evolutionary Computation.
 
 ## 🎯 Overview
 
@@ -85,7 +82,3 @@ If you find this work useful, please cite our paper:
 ## 🙏 Acknowledgments
 - Built on [PyMOO](https://pymoo.org/) framework
 - Inspired by recent advances in amortized optimization and [Pareto set learning](https://github.com/Xi-L/EPSL)
-
----
-
-**Note**: Code will be fully open-sourced upon paper acceptance.
