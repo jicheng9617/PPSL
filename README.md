@@ -4,7 +4,7 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.12%2B-ee4c2c?logo=pytorch)](https://pytorch.org/)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/license/MIT)
 
-Official implementation of the paper **"Parametric Pareto Set Learning: Amortizing Multi-Objective Optimization with Parameters"**, published in IEEE Transactions on Evolutionary Computation.
+Official implementation of the paper [**"Parametric Pareto Set Learning: Amortizing Multi-Objective Optimization with Parameters"**](https://ieeexplore.ieee.org/document/11236473), published in IEEE Transactions on Evolutionary Computation.
 
 ## 🎯 Overview
 
