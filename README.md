@@ -76,6 +76,12 @@ If you find this work useful, please cite our paper:
 ```bibtex
 @article{ppsl2024,
   title={Parametric Pareto Set Learning: Amortizing Multi-Objective Optimization with Parameters},
+  author={Cheng, Ji and Lin, Xi and Xue, Bo and Zhang, Qingfu},
+  journal={IEEE Transactions on Evolutionary Computation}, 
+  year={2025},
+  volume={},
+  number={},
+  pages={1-1},
 }
 ```
 
